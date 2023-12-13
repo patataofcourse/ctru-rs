@@ -8,7 +8,7 @@
 use std::cell::RefMut;
 use std::default::Default;
 
-use ctru_sys::{consoleClear, consoleInit, consoleSelect, consoleSetWindow, PrintConsole};
+use ctru_sys::{consoleClear, consoleInit, consoleSelect, consoleSetWindow, PrintConsole, ConsoleFont, consoleSetFont};
 
 use crate::services::gfx::{Flush, Screen, Swap};
 
@@ -325,6 +325,14 @@ impl<'screen> Console<'screen> {
             ctru_sys::GFX_BOTTOM => 40,
             _ => unreachable!(),
         }
+    }
+
+    /// Sets the font to be used by the console
+    /// 
+    /// TODO: a proper replacement for ConsoleFont (maybe use a Range?)
+    /// TODO: examples
+    pub fn set_font(&mut self, font: &mut ConsoleFont) {
+        unsafe {consoleSetFont(&mut *self.context, font) };
     }
 }
 
